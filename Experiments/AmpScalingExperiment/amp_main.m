@@ -1,6 +1,6 @@
 function amp_main
     simulate = 0; % 1 = generated random images, 0 = get images over http
-    id = 'solderball_20180226_amptest'; % Identifier of the experiment run
+    id = 'solderball_20190723_amptest'; % Identifier of the experiment run
     desired_particles = 80; % How many particles should be on the plate, at least, for the experiment to start
     desired_stepSize = 0.0035; % The experiment tries to adjust the amplitudes so that the 75% of the particles move less than this
     cycles = 30; % For each frequency, how many PTV steps is taken in total. The total number of exps cycles * number of frequencies
@@ -15,11 +15,12 @@ function amp_main
     % basescale = [261.63 293.66 329.63 349.23 392.00 440.00 493.88]; % C major
     basescale = [261.63 277.18 293.66 311.13 329.63 349.23 369.99 392.00 415.30 440.00 466.16 493.88]; % chromatic             
     
-    datafile = [getTempDataPath() 'Amptest2018_2\' id '.mat'];
+    prefiximg = [getTempDataPath() 'Amptest_RL_2019_1\'];
+    datafile = [prefiximg id '.mat'];   
     tmpscalemat = basescale' * (2.^(-10:10));
     tmpscale = reshape(tmpscalemat,1,numel(tmpscalemat));    
     expfreq = tmpscale(tmpscale >= minfreq & tmpscale <= maxfreq);     
-    rand('twister', 5489)
+    rand('twister', 5489);
         
     M = length(expfreq);        
     exps = zeros(1,M*cycles);
@@ -42,8 +43,8 @@ function amp_main
     
     for i = 1:N
         if isnan(amps(i)) 
-            beforefile = sprintf('%sAmptest2018_2\\%s_%06d_%.0f_%.0f_in.jpg',getTempDataPath(),id,i,expfreq(exps(i)),duration);       
-            afterfile = sprintf('%sAmptest2018_2\\%s_%06d_%.0f_%.0f_out.jpg',getTempDataPath(),id,i,expfreq(exps(i)),duration);
+            beforefile = sprintf('%s%s_%06d_%.0f_%.0f_in.jpg',prefiximg,id,i,expfreq(exps(i)),duration);       
+            afterfile = sprintf('%s%s_%06d_%.0f_%.0f_out.jpg',prefiximg,id,i,expfreq(exps(i)),duration);
             if ~exist(beforefile,'file') || ~exist(afterfile,'file')
                 freq = expfreq(exps(i));
                 % 

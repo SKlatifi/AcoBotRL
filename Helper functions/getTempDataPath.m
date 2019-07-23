@@ -1,6 +1,6 @@
 function ret = getTempDataPath()
-    mpath = mfilename('fullpath');
-    [pathstr,name,ext] = fileparts(mpath);
-    ret = [pathstr '\..\TempData\'];
-    ret = 'D:\Projects\Acobot\AcoLabControl\TempData\'; %% for under water experiments
+    filepath = mfilename('fullpath');
+    subpath = fileparts(filepath);
+    mainpath = fileparts(subpath);
+    ret = [mainpath '\TempData\'];
 end
