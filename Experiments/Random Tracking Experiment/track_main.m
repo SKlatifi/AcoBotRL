@@ -1,19 +1,17 @@
 function track_main
     simulate = 0; % 1 = generated random images, 0 = get images over http
-    id = '600umsolder_20190305_tracktest'; % Identifier of the experiment run
-    % Under water experiments    
-%     id = '750glass_20180502_tracktest'; % Identifier of the experiment run
+    id = 'solderball_20190723_tracktest'; % Identifier of the experiment run
     desired_particles = 80; % How many particles should be on the plate, at least, for the experiment to start. Empty is means disabled.
-    cycles = 25; % For each frequency, how many PTV steps is taken in total. The total number of exps cycles * number of frequencies    
-    exps_before_reset = 10; % The balls are replaced to good locations every this many cycles                    
-    
-    % datapath = getTempDataPath();
-    datapath = 'C:\Users\micronano\Documents\';
+    cycles = 35; % For each frequency, how many PTV steps is taken in total. The total number of exps cycles * number of frequencies    
+    exps_before_reset = 25; % The balls are replaced to good locations every this many cycles                        
+    datapath = getTrackingDataPath();   
     
     % In air
-    mkdir([datapath 'Tracktest_2019_2\']);
-    datafile = [datapath 'Tracktest_2019_2\' id '.mat'];
-    load('D:\Projects\Acobot\AcoLabControl\TempData\Amptest2019_2\modeInfo.mat')
+    prefiximg = [getTrackingDataPath() 'Tracktest_RL_2019_1\'];
+    mkdir(prefiximg)    
+    datafile = [prefiximg id '.mat'];
+    modeInfofile = [getTempDataPath() 'modeInfo.mat'];
+    load(modeInfofile)
     
 %     % Replace amps with the final tuned ones
 %     load('D:\Projects\Acobot\AcoLabControl\TempData\Amptest2018_1_tuned\amp_movement_final.mat');
@@ -36,9 +34,9 @@ function track_main
     
     save(datafile,'exps','modeInfo');
     
-    for i = 1:N
-        beforefile = sprintf('%sTracktest_2019_2\\%s_%06d_%.0f_%.0f_%.3f_in.jpg',datapath,id,i,modeInfo.freq(exps(i)),modeInfo.duration(exps(i)),modeInfo.amp(exps(i)));       
-        afterfile = sprintf('%sTracktest_2019_2\\%s_%06d_%.0f_%.0f_%.3f_out.jpg',datapath,id,i,modeInfo.freq(exps(i)),modeInfo.duration(exps(i)),modeInfo.amp(exps(i)));
+    for i = 1:N        
+        beforefile = sprintf('%s%s_%06d_%.0f_%.0f_%.3f_in.jpg',prefiximg,id,i,modeInfo.freq(exps(i)),modeInfo.duration(exps(i)),modeInfo.amp(exps(i)));       
+        afterfile = sprintf('%s%s_%06d_%.0f_%.0f_%.3f_out.jpg',prefiximg,id,i,modeInfo.freq(exps(i)),modeInfo.duration(exps(i)),modeInfo.amp(exps(i)));
         if ~exist(beforefile,'file') || ~exist(afterfile,'file')
             if (exp_counter >= exps_before_reset)
                 fprintf('Redistribute the particles evenly on the plate and hit enter when ready\n');
