@@ -1,0 +1,30 @@
+
+clc;
+clear all;
+close all;
+
+gridNum = 50;
+datapath = getTempDataPath();
+filename = 'vectorField_RL_2019_1.mat';
+load(strcat(datapath,filename));
+
+start = [0.2 0.2;
+         0.8 0.5
+         0.3 0.8];
+target = [0.35 0.35;
+          0.75 0.4;
+          0.4 0.7];
+
+plate = simulatedPlateM(start,target,maps,gridNum);
+[policy] = learnpolicy( plate, start, target, maps);
+
+% partcl_numbr = 10;
+% start = 0.2 + 0.6*rand(partcl_numbr,2);
+% target = 0.2 + 0.6*rand(partcl_numbr,2);
+% m = optimal_match(start,target);
+% p = start(m(:,1),:);
+% v = target(m(:,2),:);
+% start = p;
+% target = v;
+% plot(start(:,1),start(:,2),'bo',target(:,1),target(:,2),'ro');
+% axis([0 1 0 1]);   
