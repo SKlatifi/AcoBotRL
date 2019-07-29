@@ -1,14 +1,11 @@
 % Under water
 % id = '750umGlass_20170921_tracktest'; % Identifier of the experiment run 
-id = '600umsolder_20190305_tracktest'; % Identifier of the experiment run       
+id = 'solderball_20190723_tracktest'; % Identifier of the experiment run
 discard_threshold = 0.0035 * 20;
-
-% datapath = getTempDataPath();
-% Under water
-% datapath = 'C:\Users\micronano\Documents\TracktestUW\';
-datapath = 'C:\Users\micronano\Documents\Tracktest_2019_2\';
-
-datafile = [datapath id '.mat'];
+% datapath = 'C:\Users\micronano\Documents\Tracktest_2019_2\';
+datapath = getTrackingDataPath();   
+prefiximg = [getTrackingDataPath() 'Tracktest_RL_2019_1\'];
+datafile = [prefiximg id '.mat'];
 load(datafile);    
 
 %%
@@ -21,8 +18,8 @@ exps = exps;
 
 N = length(exps);
 parfor i = 1:N
-    beforefile = sprintf('%s%s_%06d_%.0f_%.0f_%.3f_in.jpg',datapath,id,i,freq(exps(i)),duration(exps(i)),amp(exps(i)));       
-    afterfile = sprintf('%s%s_%06d_%.0f_%.0f_%.3f_out.jpg',datapath,id,i,freq(exps(i)),duration(exps(i)),amp(exps(i)));
+    beforefile = sprintf('%s%s_%06d_%.0f_%.0f_%.3f_in.jpg',prefiximg,id,i,freq(exps(i)),duration(exps(i)),amp(exps(i)));       
+    afterfile = sprintf('%s%s_%06d_%.0f_%.0f_%.3f_out.jpg',prefiximg,id,i,freq(exps(i)),duration(exps(i)),amp(exps(i)));
     if exist(beforefile,'file') && exist(afterfile,'file')
         [~,~,~,~,p_before,p_after] = load_amp_exp(beforefile,afterfile);
         m = optimal_match(p_before,p_after,discard_threshold);              
