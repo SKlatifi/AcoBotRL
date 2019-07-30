@@ -15,8 +15,8 @@ target = [0.35 0.35;
           0.75 0.4;
           0.4 0.7];
 
-plate = simulatedPlateM(start,target,maps,gridNum);
-[policy] = learnpolicy( plate, start, target, maps);
+plate = simulatedPlateM(start,target,mapFunc,gridNum);
+[policy] = learnpolicy(plate,start,target,mapFunc);
 
 % partcl_numbr = 10;
 % start = 0.2 + 0.6*rand(partcl_numbr,2);
