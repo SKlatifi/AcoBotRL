@@ -2,31 +2,34 @@
 % (1,0) is the topright corner; (0,1) is the bottomleft corner
 
 % Starting point for the manipulation     
-start = [0.2 0.2;
-         0.8 0.5
-         0.3 0.8];
-target = [0.35 0.35;
-          0.75 0.4;
-          0.4 0.7];
+start = [0.35 0.35;
+          0.65 0.35;
+          0.35 0.65
+          0.65 0.65];
+target = [0.25 0.25;
+          0.75 0.25;
+          0.25 0.75
+          0.75 0.75];
+      
 tolerance = 0.015; % At which distance the particle considered have reached the target, in plate units
 mycontroller = @controller; % Replace this line to switch from one controller to another
 
 datapath = getTempDataPath();
 mapfilename = 'vectorField_RL_2019_1.mat';
-policyfilename = 'policy10000.mat';
+policyfilename = 'policy50000.mat';
 load(strcat(datapath,mapfilename));
 load(strcat(datapath,policyfilename));
 
 % dataRecorder(...,'log',true) saves log file
 % dataRecorder(...,'plot','video') save a video
-recorder = dataRecorder('maps',maps,'plot','video');
+recorder = dataRecorder('maps',mapFunc,'plot','video');
 
 % For simulation, use simulatedPlate.
 % In the final competition, we will replace this with realPlate
-plate = simulatedPlate(start,maps);
+plate = simulatedPlate(start,mapFunc);
 
 % Run the main control loop
-steps = controlLoop(mycontroller,maps,target,tolerance,plate,recorder,policy);
+steps = controlLoop(mycontroller,mapFunc,target,tolerance,plate,recorder,policy);
 fprintf('Manipulation completed in %d steps\n',steps);
 
 % Clearing all references to the recorder calls the destructor for a

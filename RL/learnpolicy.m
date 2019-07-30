@@ -1,7 +1,7 @@
 function [ policy ] = learnpolicy( plate,start, target,maps)
 
 datapath = getTempDataPath();
-num_of_episodes = 10000;
+num_of_episodes = 50000;
 theta = zeros(size(start,1)+1, 1); % initialize fitting parameters
 alpha = 0.01;
 tic
