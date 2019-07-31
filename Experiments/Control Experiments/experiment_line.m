@@ -16,12 +16,12 @@ gridSize = 20;
 % modes = fromData(loadVariable(newFileName,'modeInfo'),loadVariable(newFileName,'Map'),gridSize,0);
 
 %% Uncomment this part for full modes experiment and comment out the previous section
-datafile = ['D:\Projects\Acobot\AcoLabControl\TempData\glass750_UW_line_' datestr(now,'yymmdd_HHMMSS') '.txt'];
-modes = fromData(loadVariable('trackModesChromaticUW_2018_20_1_m6.mat','modeInfo'),loadVariable('trackModesChromaticUW_2018_20_1_m6.mat','Map'),gridSize,0);
+datafile = ['D:\Projects\AcoBotRL\TempData\glass750_UW_line_' datestr(now,'yymmdd_HHMMSS') '.txt'];
+modes = fromData(loadVariable('vectorField_RL_2019_1.mat','modeInfo'),loadVariable('vectorField_RL_2019_1.mat','mapGrid'),gridSize,0);
 %modes = adjustDurations(modes,desiredStepSize,0.3,4);
 
 %%
-modes.gains = modes.gains * 2;
+modes.gains = modes.gains * 1;
 modes.durations = modes.durations * 0.2;
 
 t = {generateLine();};

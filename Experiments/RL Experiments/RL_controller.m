@@ -2,19 +2,18 @@ function id = RL_controller(position,policy)
 
     % controller    Decides the id of the frequency that should be played.
     %               Usage:
-    %
-    %               id = controller(maps,position,target)
-    %               
-    %               maps is a struct array of length M and id should be
-    %                  index to this array (1..M).
-    %               position is the current position(s) of the particle(s)
-    %               target is the current target(s) of the particle(s).
-    %    
-    %               The predicted movement of a particle after returning id
-    %               is pnew = p + [maps(id).deltaX(p) maps(id).deltaY(p)].
     
-    % TODO: Implement your controller here.
-    %id = randi([1,length(maps)]);
+    persistent last_positions;
+    N = size(position,1);
+    last_positions = [last_positions; position];
+    
+    if size(last_positions,1) > 2*N        
+        if (vecnorm(last_positions(end-2*N+1:end-N,:) - position) < 0.0001*N)
+            id = randi(59);
+            return
+        end
+    end
+        
     id = policy.getAction(position);
     
 end
