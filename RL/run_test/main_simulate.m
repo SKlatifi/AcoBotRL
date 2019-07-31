@@ -10,7 +10,7 @@ mycontroller = @controller; % Replace this line to switch from one controller to
 
 datapath = getTempDataPath();
 mapfilename = 'vectorField_RL_2019_1.mat';
-policyfilename = 'policy50000.mat';
+policyfilename = 'policy10000.mat';
 load(strcat(datapath,mapfilename));
 load(strcat(datapath,policyfilename));
 
