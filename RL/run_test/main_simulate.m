@@ -2,14 +2,8 @@
 % (1,0) is the topright corner; (0,1) is the bottomleft corner
 
 % Starting point for the manipulation     
-start = [0.35 0.35;
-          0.65 0.35;
-          0.35 0.65
-          0.65 0.65];
-target = [0.25 0.25;
-          0.75 0.25;
-          0.25 0.75
-          0.75 0.75];
+start = [0.3 0.3];
+target = [0.7 0.3];
       
 tolerance = 0.015; % At which distance the particle considered have reached the target, in plate units
 mycontroller = @controller; % Replace this line to switch from one controller to another

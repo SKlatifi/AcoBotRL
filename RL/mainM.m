@@ -8,14 +8,8 @@ datapath = getTempDataPath();
 filename = 'vectorField_RL_2019_1.mat';
 load(strcat(datapath,filename));
 
-start = [0.35 0.35;
-          0.65 0.35;
-          0.35 0.65
-          0.65 0.65];
-target = [0.25 0.25;
-          0.75 0.25;
-          0.25 0.75
-          0.75 0.75];
+start = [0.3 0.3];
+target = [0.7 0.3];
 
 plate = simulatedPlateM(start,target,mapFunc,gridNum);
 [policy] = learnpolicy(plate,start,target,mapFunc);
