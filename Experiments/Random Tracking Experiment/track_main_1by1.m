@@ -24,6 +24,7 @@ function track_main_1by1
 %     %
 
     % Experiments 1 by 1
+    M = length(modeInfo.freq);
     exps = zeros(1,M*cycles);
     for i = 1:M
         for j = 1:cycles

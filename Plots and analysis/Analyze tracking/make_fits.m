@@ -1,5 +1,5 @@
-Map = struct('gU',[],'gV',[],'STD',[],'SE',[]);
-map = struct('deltaX',[],'deltaY',[],'variance',[]);
+mapGrid = struct('gU',[],'gV',[],'STD',[],'SE',[]);
+mapFunc = struct('deltaX',[],'deltaY',[],'variance',[]);
 
 [GX,GY] = meshgrid(linspace(0,1,21),linspace(0,1,21));
 
@@ -25,18 +25,18 @@ for i = 1:length(data)
      
     fprintf('Making PPMAP U %d / %d\n',i,length(data));
     
-    Map(i).gU = fitU(GX,GY);
-    map(i).deltaX = fitU;
+    mapGrid(i).gU = fitU(GX,GY);
+    mapFunc(i).deltaX = fitU;
     
     fprintf('Making PPMAP V %d / %d\n',i,length(data));
     
-    Map(i).gV = fitV(GX,GY);    
-    map(i).deltaY = fitV;
+    mapGrid(i).gV = fitV(GX,GY);    
+    mapFunc(i).deltaY = fitV;
     
     fprintf('Making PPMAP STD %d / %d\n',i,length(data));
     
-    Map(i).STD = fitStd(GX,GY); 
-    map(i).variance = fitVar;
+    mapGrid(i).STD = fitStd(GX,GY); 
+    mapFunc(i).variance = fitVar;
     
 %      h = 1/30;
 %     [X,Y] = meshgrid(0:h:1,0:h:1);
