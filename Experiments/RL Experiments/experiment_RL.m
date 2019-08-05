@@ -9,7 +9,7 @@ tolerance = 0.02;
 %% Load models and modeInfo; and generate the output
 datapath = [getTempDataPath 'RL_P2\'];
 datafile = [datapath 'P2_' datestr(now,'yymmdd_HHMMSS') '.txt'];
-vector_field_file = [getTempDataPath() 'vectorField_RL_2019_1.mat'];
+vector_field_file = [getTempDataPath() 'vectorField_RL_1by1_2019_1.mat'];
 policy_file = [getTempDataPath() 'policy10000.mat'];
 load(vector_field_file);
 load(policy_file);

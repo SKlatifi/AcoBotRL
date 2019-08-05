@@ -16,6 +16,12 @@ function ret = generate_policy( theta, maps,target )
                 
 
             value = [1 X]*theta;
+            
+            % Only for models of RL_1by1_2019_1
+            if n > 54
+                value = 0;
+            end
+            
             if max_val<value
                 max_val=value;
                 id=n;

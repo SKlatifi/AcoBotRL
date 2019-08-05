@@ -5,7 +5,7 @@ close all;
 
 gridNum = 50;
 datapath = getTempDataPath();
-filename = 'vectorField_RL_2019_1.mat';
+filename = 'vectorField_RL_1by1_2019_1.mat';
 load(strcat(datapath,filename));
 
 start = [0.3 0.3;

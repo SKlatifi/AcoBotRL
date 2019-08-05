@@ -1,31 +1,30 @@
 function [amp, movement] = tune_final_amp
 
     simulate = 0; % 1 = generated random images, 0 = get images over http
-    filename = 'D:\Projects\Acobot\AcoLabControl\TempData\Amptest2019_2\modeInfo.mat';
+    filename = [getTempDataPath 'modeInfo.mat'];
     
-    id = 'solderball_20100304_amptest_tuning'; % Identifier of the experiment run
+    id = 'solderball_20190805_amptest_tuning'; % Identifier of the experiment run
     desired_particles = 80; % How many particles should be on the plate, at least, for the experiment to start. Empty is means disabled.  
     exps_before_reset = 1; % The balls are replaced to good locations every this many cycles                    
     
-    datapath = 'D:\Projects\Acobot\AcoLabControl\TempData\';        
-    mkdir([datapath 'Amptest2019_2\']);
-    datafile = [datapath 'Amptest2019_2\' id '.mat'];
+    datapath = [getTempDataPath 'Amptest_RL_2019_1_tuned\'];        
+    mkdir(datapath);
+    datafile = [datapath id '.mat'];
     load(filename); 
     
     % To change the amps whcih are very high
-    load([datapath 'Amptest2019_2\amp_movement_4.mat']);
+    load([datapath 'amp_movement_02.mat']);
     desired_move = 0.0035;
-    max_tolerable_move = 0.005;
+    max_tolerable_move = 0.0045;
     min_tolerable_move = 0.003;  
     modeInfo.amp = amp;
         
     for i = 1:length(modeInfo.amp)
-        if movement(i) > max_tolerable_move
-            modeInfo.amp(i) = (desired_move/max_tolerable_move)*modeInfo.amp(i);
-        elseif movement(i) < min_tolerable_move
-            if modeInfo.amp(i) ~= 1
-                modeInfo.amp(i) = (desired_move/min_tolerable_move)*modeInfo.amp(i);
-            end
+        if (movement(i) > max_tolerable_move) || (movement(i) < min_tolerable_move)
+            modeInfo.amp(i) = sqrt(desired_move/movement(i))*modeInfo.amp(i);
+        end
+        if modeInfo.amp(i) > 1
+            modeInfo.amp(i) = 1;
         end
     end
     %
@@ -40,8 +39,8 @@ function [amp, movement] = tune_final_amp
     duration = nan(1,N);
     
     for i = 1:N
-        beforefile = sprintf('%sAmptest2019_2\\%s_%06d_%.0f_%.0f_%.3f_in.jpg',datapath,id,i,modeInfo.freq(i),modeInfo.duration(i),modeInfo.amp(i));       
-        afterfile = sprintf('%sAmptest2019_2\\%s_%06d_%.0f_%.0f_%.3f_out.jpg',datapath,id,i,modeInfo.freq(i),modeInfo.duration(i),modeInfo.amp(i));
+        beforefile = sprintf('%s%s_%06d_%.0f_%.0f_%.3f_in.jpg',datapath,id,i,modeInfo.freq(i),modeInfo.duration(i),modeInfo.amp(i));       
+        afterfile = sprintf('%s%s_%06d_%.0f_%.0f_%.3f_out.jpg',datapath,id,i,modeInfo.freq(i),modeInfo.duration(i),modeInfo.amp(i));
         if ~exist(beforefile,'file') || ~exist(afterfile,'file')
             if (exp_counter >= exps_before_reset)
                 fprintf('Redistribute the particles evenly on the plate and hit enter when ready\n');
