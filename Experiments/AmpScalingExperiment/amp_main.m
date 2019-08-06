@@ -1,21 +1,21 @@
 function amp_main
     simulate = 0; % 1 = generated random images, 0 = get images over http
-    id = 'solderball_20190723_amptest'; % Identifier of the experiment run
+    id = 'solderball_20190806_amptest'; % Identifier of the experiment run
     desired_particles = 80; % How many particles should be on the plate, at least, for the experiment to start
     desired_stepSize = 0.0035; % The experiment tries to adjust the amplitudes so that the 75% of the particles move less than this
     cycles = 30; % For each frequency, how many PTV steps is taken in total. The total number of exps cycles * number of frequencies
     minfreq = 1000; % All notes from the scale below this frequency are discarded.
-    maxfreq = 30000; % All notes from the scale above this frequency are discarded
+    maxfreq = 20000; % All notes from the scale above this frequency are discarded
     duration = 500; % in milliseconds, constant for all notes
     default_amp = 0.02; % starting amplitude: for 2*3*5 actuators = 0.02; for 2*3*20 actuators = 0.005
     min_amp = 0.001; % never decrease amplitude below this
     max_amp = 1; % never increase amplitude above this
     max_increase = 1.5; % never increase the amplitude more than 1.5 x from the previous experiment
-    exps_before_reset = 50; % The balls are replaced to good locations every this many cycles
+    exps_before_reset = 30; % The balls are replaced to good locations every this many cycles
     % basescale = [261.63 293.66 329.63 349.23 392.00 440.00 493.88]; % C major
     basescale = [261.63 277.18 293.66 311.13 329.63 349.23 369.99 392.00 415.30 440.00 466.16 493.88]; % chromatic             
     
-    prefiximg = [getTempDataPath() 'Amptest_RL_2019_1\'];
+    prefiximg = [getTempDataPath() 'Amptest_RL_2019_P2\'];
     mkdir(prefiximg)
     datafile = [prefiximg id '.mat'];   
     tmpscalemat = basescale' * (2.^(-10:10));

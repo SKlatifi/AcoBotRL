@@ -42,6 +42,10 @@ for i = 1:K
     [fitresult, gof] = fit( xData, yData, ft );
     fittedamp(i) = fitresult(desired_stepSize); 
     
+    if fittedamp(i) > 1
+        fittedamp(i) = 1;
+    end
+    
     material{i} = datafile;
 	f(i) = expfreq(j);    
     if (~isempty(a))

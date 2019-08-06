@@ -1,22 +1,29 @@
 function track_main
     simulate = 0; % 1 = generated random images, 0 = get images over http
-    id = 'solderball_20190723_tracktest'; % Identifier of the experiment run
+    id = 'solderball_20190805_tracktest'; % Identifier of the experiment run
     desired_particles = 80; % How many particles should be on the plate, at least, for the experiment to start. Empty is means disabled.
-    cycles = 35; % For each frequency, how many PTV steps is taken in total. The total number of exps cycles * number of frequencies    
+    cycles = 50; % For each frequency, how many PTV steps is taken in total. The total number of exps cycles * number of frequencies    
     exps_before_reset = 25; % The balls are replaced to good locations every this many cycles                        
     datapath = getTrackingDataPath();   
     
     % In air
-    prefiximg = [getTrackingDataPath() 'Tracktest_RL_2019_1\'];
+    prefiximg = [getTrackingDataPath() 'Tracktest_RL_2019_pl1_m2\'];
     mkdir(prefiximg)    
     datafile = [prefiximg id '.mat'];
     modeInfofile = [getTempDataPath() 'modeInfo.mat'];
     load(modeInfofile)
     
-%     % Replace amps with the final tuned ones
-%     load('D:\Projects\Acobot\AcoLabControl\TempData\Amptest2018_1_tuned\amp_movement_final.mat');
-%     modeInfo.amp = amp;    
-%     %
+    % Replace amps with the final tuned ones
+    load('D:\Projects\AcoBotRL\TempData\Amptest_RL_2019_1_tuned\amp_movement_final.mat');
+    modeInfo.amp = amp; 
+    %
+    
+    % Skipping high_frequency notes for plate 1 modelling 2
+    modeInfo.amp(53:end) = [];
+    modeInfo.freq(53:end) = [];
+    modeInfo.duration(53:end) = [];
+    modeInfo.material(53:end) = [];
+    %
     
     rand('twister', 5489);
     M = length(modeInfo.freq);    
