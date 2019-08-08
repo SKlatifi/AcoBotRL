@@ -2,13 +2,12 @@
 clear all;
 close all;
 
-target = [0.4 0.35;          
-          0.6 0.65];
+target = [0.3 0.5];
 tolerance = 0.02;
 
 %% Load models and modeInfo; and generate the output
-datapath = [getTempDataPath 'RL_2019_P2_Part2\'];
-datafile = [datapath 'P2_' datestr(now,'yymmdd_HHMMSS') '.txt'];
+datapath = [getTempDataPath 'RL_2019_P2_Part1\'];
+datafile = [datapath 'P1_' datestr(now,'yymmdd_HHMMSS') '.txt'];
 vector_field_file = [getTempDataPath() 'vectorField_RL_2019_P2.mat'];
 policy_file = [getTempDataPath() 'policy10000.mat'];
 load(vector_field_file);
