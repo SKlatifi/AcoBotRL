@@ -5,13 +5,17 @@ close all;
 
 gridNum = 50;
 datapath = getTempDataPath();
-filename = 'vectorField_RL_1by1_2019_1.mat';
+filename = 'vectorField_RL_2019_P2.mat';
 load(strcat(datapath,filename));
 
-start = [0.3 0.3;
-         0.7 0.7];
-target = [0.4 0.4;
-          0.6 0.6];
+start = [0.42 0.31;
+         0.68 0.42;
+         0.57 0.68;
+         0.31 0.57];
+target = [0.57 0.31;          
+          0.68 0.57;
+          0.42 0.68;
+          0.31 0.42];
 
 plate = simulatedPlateM(start,target,mapFunc,gridNum);
 [policy] = learnpolicy(plate,start,target,mapFunc);

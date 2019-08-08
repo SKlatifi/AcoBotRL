@@ -1,4 +1,4 @@
-function id = RL_controller(position,policy)   
+function id = RL_controller(position,policy,Nmodes)   
 
     % controller    Decides the id of the frequency that should be played.
     %               Usage:
@@ -9,7 +9,7 @@ function id = RL_controller(position,policy)
     
     if size(last_positions,1) > 2*N        
         if (vecnorm(last_positions(end-2*N+1:end-N,:) - position) < 0.0001*N)
-            id = randi(59);
+            id = randi(Nmodes);
             return
         end
     end

@@ -1,4 +1,4 @@
-function [step,manipulationTime] = RL_controlLoop(mycontroller,target,tolerance,plate,recorder,policy)                     
+function [step,manipulationTime] = RL_controlLoop(mycontroller,target,tolerance,plate,recorder,policy,Nmodes)                     
     tic;    
     step = 0;    
     % Show the target on the machine vision
@@ -8,7 +8,7 @@ function [step,manipulationTime] = RL_controlLoop(mycontroller,target,tolerance,
     % Loop until the object is within tolerance of the target
     while any(distance(curPos,target) > tolerance)           
         % Ask the controller which frequency to play next
-        frequencyId = mycontroller(curPos,policy);                                                 
+        frequencyId = mycontroller(curPos,policy,Nmodes);                                                 
         % Play the frequency       
         plate.play(frequencyId); 
         % Get the positions after playing the frequency
