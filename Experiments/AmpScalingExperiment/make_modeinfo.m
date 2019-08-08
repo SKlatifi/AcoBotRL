@@ -60,8 +60,8 @@ end
 modeInfo = struct();
 modeInfo.material = material;
 modeInfo.freq = f;
-% modeInfo.amp = alast; In nature comms paper this method was used --> selecting the last amplitude
-modeInfo.amp = fittedamp;
+modeInfo.amp = alast; 
+% modeInfo.amp = fittedamp; In PRL paper this method was used --> selecting the fitted amplitude
 modeInfo.duration = dlast;
 
 save ([getTempDataPath() 'modeInfo.mat'],'modeInfo');

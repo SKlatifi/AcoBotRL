@@ -3,7 +3,7 @@ close all;
 clear all;
 
 gridSize = 20;
-modes1 = fromData(loadVariable('vectorField_RL_1by1_2019_1.mat','modeInfo'),loadVariable('vectorField_RL_1by1_2019_1.mat','mapGrid'),gridSize,0);
+modes1 = fromData(loadVariable('vectorField_RL_2019_P2.mat','modeInfo'),loadVariable('vectorField_RL_2019_P2.mat','mapGrid'),gridSize,0);
 
 [x,y] = meshgrid(0:0.05:1,0:0.05:1);
 figure

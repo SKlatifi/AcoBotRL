@@ -1,10 +1,10 @@
 % Under water
 % id = '750umGlass_20170921_tracktest'; % Identifier of the experiment run 
-id = 'solderball_20190801_tracktest'; % Identifier of the experiment run
+id = 'solderball_20190806_tracktest'; % Identifier of the experiment run
 discard_threshold = 0.0035 * 20;
 % datapath = 'C:\Users\micronano\Documents\Tracktest_2019_2\';
 datapath = getTrackingDataPath();   
-prefiximg = [getTrackingDataPath() 'Tracktest_RL_1by1_2019_1\'];
+prefiximg = [getTrackingDataPath() 'Tracktest_RL_2019_P2\'];
 datafile = [prefiximg id '.mat'];
 load(datafile);    
 

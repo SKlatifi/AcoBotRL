@@ -3,11 +3,11 @@ function [amp, movement] = tune_final_amp
     simulate = 0; % 1 = generated random images, 0 = get images over http
     filename = [getTempDataPath 'modeInfo.mat'];
     
-    id = 'solderball_20190805_amptest_tuning'; % Identifier of the experiment run
+    id = 'solderball_20190806_amptest_tuning'; % Identifier of the experiment run
     desired_particles = 80; % How many particles should be on the plate, at least, for the experiment to start. Empty is means disabled.  
     exps_before_reset = 1; % The balls are replaced to good locations every this many cycles                    
     
-    datapath = [getTempDataPath 'Amptest_RL_2019_1_tuned\'];        
+    datapath = [getTempDataPath 'Amptest_RL_2019_P2_tuned\'];        
     mkdir(datapath);
     datafile = [datapath id '.mat'];
     load(filename); 
