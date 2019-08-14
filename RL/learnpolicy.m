@@ -1,14 +1,16 @@
 function [policy,thetaLearn] = learnpolicy( plate,start, target,maps)
 
 datapath = getTempDataPath();
-num_of_episodes = 1000;
+
+num_of_episodes = 5000;
 num_of_steps = 50;
+alpha_dist = 0.01;
+alpha_angle = 0.002;
+
 theta = zeros(2*size(start,1)+1, 1); % initialize fitting parameters
 theta_dist = zeros(size(start,1)+1, 1);
 theta_beta = zeros(size(start,1), 1);
 thetaLearn = theta;
-alpha_dist = 0.01;
-alpha_angle = 0.002;
 gridNum = 50;
 tic
 for i = 1:num_of_episodes %run for a number of episodes

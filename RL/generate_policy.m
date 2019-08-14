@@ -18,6 +18,7 @@ function ret = generate_policy(theta,maps,target)
                 dist(i) = sqrt(sum((target(i,:) - [xn yn]).^2));
                 beta(i) = dot(dir_before,[dx,dy])/(norm(dir_before)*norm([dx,dy]));
             end
+
             value = [1 dist beta]*theta;
             if max_val<value
                 max_val=value;
