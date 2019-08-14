@@ -2,15 +2,17 @@
 % (1,0) is the topright corner; (0,1) is the bottomleft corner
 
 % Starting point for the manipulation     
-start = [0.7 0.5];
-target = [0.3 0.5];
+start = [0.5 0.4;
+         0.5 0.6];
+target = [0.5 0.3;
+         0.5 0.7];
       
 tolerance = 0.015; % At which distance the particle considered have reached the target, in plate units
 mycontroller = @controller; % Replace this line to switch from one controller to another
 
 datapath = getTempDataPath();
 mapfilename = 'vectorField_RL_2019_P2.mat';
-policyfilename = 'policy10000.mat';
+policyfilename = 'policy1000.mat';
 load(strcat(datapath,mapfilename));
 load(strcat(datapath,policyfilename));
 
