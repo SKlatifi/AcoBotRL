@@ -1,19 +1,18 @@
-function plot_P2P()     
+function [coordinates,angle,data] = plot_P2P()     
     
-    tempDataPath = strcat(fileparts(mfilename('fullpath')),'\');  
+    tempDataPath = getTempDataPath();  
+    videoPath = strcat(tempDataPath,'video_analysis\');
     frameNumber = 0;
     lastFrameRepeat = 0;
-    makeVideo = 0;
+    makeVideo = 1;
     everyNthFrame = 5;
     downSampling = 0;
     pdfFrames = [1, 2000, 2919];
     idxForPdf = 1;
-    cropWidth = 500;
-    cropOrg = [986 262];
-%     coordinateMult = 1;
-%     coordinateOrg = [0.25 -0.15];    
-    coordinateMult = 2.5;
-    coordinateOrg = [0.25 0.3750];   
+    coordinates = zeros(2,2);
+    angle = 0;
+    n_particle = 3;
+    se = strel('line',11,90);
     
     f = figure(1);
     set(f, 'Position', [100, 100, 700, 700]);                
@@ -22,32 +21,20 @@ function plot_P2P()
     set(gca,'xticklabel',[])
     set(gca,'ytick',[])
     set(gca,'yticklabel',[]);  
-%     % Read trail data
-%     trail_table = readtable('steps.txt');
-%     trail_mat = str2double(table2array(trail_table(:,1)));
-%     trail_mat(isnan(trail_mat)) = [];
-%     data(:,1) = trail_mat(1:2:end-1);
-%     data(:,2) = trail_mat(2:2:end);
-%     data = data - coordinateOrg;
-%     data = coordinateMult * data;
     data = [];
-    % Read target data
-    t = table2array(readtable('path.txt'));
-    t(:,2) = 1 - t(:,2);
-    t = t - t(6,:);
-    t = coordinateMult * t;
-    t = t + coordinateOrg;
-    vidObj = VideoReader('rect_raw.mp4');
+    
+    t = [0.5 0.25; 0.3 0.7; 0.7 0.7];
+    vidObj = VideoReader(strcat(videoPath,'triple_50000.wmv'));
     lastFrame = ceil(vidObj.FrameRate*vidObj.Duration);
     dumpFrames = round(linspace(1,lastFrame,5));
     
     if (makeVideo)
-        v = VideoWriter(sprintf('%srect_raw_m.mp4',tempDataPath));
+        v = VideoWriter(sprintf('%striple_50000_m',videoPath),'MPEG-4');
         open(v);
         set(f, 'Position', [100, 100, 720, 720]);                
     end
       
-    processVideo('rect_raw.mp4',@processFrame);        
+    processVideo(strcat(videoPath,'triple_50000.wmv'),@processFrame);        
     
     if (makeVideo)        
         close(v);
@@ -73,8 +60,16 @@ function plot_P2P()
                 end
             end
         end
-                
-        frame = imcrop(frame,[cropOrg cropWidth cropWidth]);
+        
+        if frameNumber == 1
+            load('data_start_triple.mat');
+            t = data_p(end-n_particle+1:end,:);  
+%             [coordinates,angle] = im_calibrate(frame);
+        end            
+
+        frame_rotated = imrotate(frame,-angle);        
+        frame = frame_rotated(coordinates(1,2):coordinates(2,2),...
+            coordinates(1,1):coordinates(2,1),:);                        
         gf = double(rgb2gray(frame))/255;                  
         
         if (makeVideo)
@@ -83,22 +78,33 @@ function plot_P2P()
             imshow(1 - gf);        
         end
         imgSize = size(gf);
-        hold on;                
-                     
+        
+        if frameNumber == 1
+            t = [t(:,1)/imgSize(2),t(:,2)/imgSize(1)]; 
+        end
+       
+        hold on;                                     
         co = [0.7 0.5 0];
         
-        ret = findBlobs(gf);
+        ret = findBlobs(gf);        
         
         if (isempty(ret))
-            data(frameNumber,:) = data(frameNumber - 1,:);
+            data(end+1:end+n_particle,:) = data(end-n_particle+1:end,:);
         end
         data = [data; ret];
 
-        MarkerSize = 35;
+        MarkerSize = 20;
+                
+%         idx = zeros(length(data),n_particle);
+        for h = 1:n_particle
+            d1 = sqrt((data(1:end,1) - data(end-n_particle+h,1)) .^ 2 +...
+            (data(1:end,2) - data(end-n_particle+h,2)) .^ 2); 
+            idx(:,h) = d1 > 15;
+        end
         
-        d1 = sqrt((data(1:frameNumber,1) - data(frameNumber,1)) .^ 2 +...
-            (data(1:frameNumber,2) - data(frameNumber,2)) .^ 2);            
-        ind = d1 > 15;
+        ind = idx(:,1) & idx(:,2) & idx(:,3);
+                
+        plot(data(ind,1),data(ind,2),'b.','MarkerSize',7);
 
         if downSampling
             for j = 1:size(ind,1)  % Down sampling the data
@@ -110,7 +116,7 @@ function plot_P2P()
 
 %         plot(data(ind,1)*imgSize(2),data(ind,2)*imgSize(1),...
 %             'b.','MarkerSize',7);
-        plot(data(ind,1),data(ind,2),'b.','MarkerSize',7);
+        
  
         dt = sqrt((t(:,1)*imgSize(2) - data(frameNumber,1)) .^ 2 +...
             (t(:,2)*imgSize(1) - data(frameNumber,2)) .^ 2);            
@@ -126,8 +132,12 @@ function plot_P2P()
         pType = sprintf('%so',colorType);                       
 %         hp = plot(data(frameNumber,1)*imgSize(2),data(frameNumber,2)*imgSize(1),...   
 %                 pType,'LineWidth',2,'MarkerSize',MarkerSize); 
-        hp = plot(data(frameNumber,1),data(frameNumber,2),...
-            pType,'LineWidth',2,'MarkerSize',MarkerSize); 
+               
+        for x = 1:n_particle
+            hp = plot(data((frameNumber-1)*n_particle+x,1),...
+                data((frameNumber-1)*n_particle+x,2),...
+                pType,'LineWidth',2,'MarkerSize',MarkerSize); 
+        end
         
         if makeVideo
                 ht = plot(-1,-1,'r+','MarkerSize',20,'LineWidth',2);                
@@ -160,19 +170,30 @@ function plot_P2P()
     end
     close all;
     
-    function ret = findBlobs(bw)        
-        s = regionprops(bw,'centroid','FilledArea');
+    function ret = findBlobs(gf)  
+%         bw2 = imdilate(bw,se);
+%         s = regionprops(bw2,'centroid','FilledArea');
+%         centroids = cat(1, s.Centroid);
+%         areas = cat(1, s.FilledArea);
+%         if isempty(areas)
+%             x = 1
+%         end
+%         ind = 10 < areas & areas < 100;
+%         ret = centroids(ind,:);
+        
+        original = adaptiveThreshold(gf,5);    
+    
+        filled = imfill(original, 'holes');
+        holes = filled & ~original;
+        bigholes = bwareaopen(holes, 40);
+        smallholes = holes & ~bigholes;
+        bw = original | smallholes;
+        s = regionprops(logical(bw),'centroid','FilledArea','Eccentricity');
         centroids = cat(1, s.Centroid);
         areas = cat(1, s.FilledArea);
-        ind = 20 < areas & areas < 100;
-        ret = centroids(ind,:);      
-    end    
-    
-    function p = line(sx,sy,ex,ey,n)
-       d = (1:n)' / n;
-       x = (ex-sx) * d + sx;
-       y = (ey-sy) * d + sy;
-       p = [x y];
-    end
-            
+        eccs = cat(1, s.Eccentricity);
+        ind = 80 < areas & areas < 400 & eccs < 0.9;
+    %     ind = 20 < areas & areas < 200; % Under water
+        ret = centroids(ind,:);   
+    end                
 end

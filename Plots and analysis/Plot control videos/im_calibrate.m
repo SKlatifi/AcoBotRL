@@ -1,6 +1,4 @@
-function I_out = im_calibrate(I_in)
-
-I_in = imread(I_in);
+function [coordinates,angle] = im_calibrate(I_in)
 
 % Rotation
 imshow(I_in);
@@ -22,8 +20,8 @@ coordinates = zeros(2,2);
 for i = 1:2
     coordinates(i,:) = round(ginputWhite(1));
 end
-I_out = I_rotated(coordinates(1,2):coordinates(2,2),...
-    coordinates(1,1):coordinates(2,1),:);
-imshow(I_out);
+% I_out = I_rotated(coordinates(1,2):coordinates(2,2),...
+%     coordinates(1,1):coordinates(2,1),:);
+% imshow(I_out);
 
 end
