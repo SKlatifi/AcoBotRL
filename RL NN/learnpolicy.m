@@ -3,7 +3,7 @@ function q_value = learnpolicy(plate,start,target)
 global nets
 datapath = getTempDataPath();
 num_of_particles = size(target,1);
-num_of_episodes = 400;
+num_of_episodes = 200;
 num_of_steps = 110;
 epsilon = 1;
 edge_ratio = 0.2;
@@ -54,7 +54,8 @@ for i = 1:num_of_episodes %run for a number of episodes
         q_value_all(n).value = [q_value_all(n).value; q_value(n).value];
     end        
     
-    if (mod(i,2) == 0)
+%     if (mod(i,2) == 0)
+    if (i)
         nets = initialize_nets(length(nets));
         for note = 1:length(nets)
             if ~isempty(q_value_all(note).pos)            

@@ -10,8 +10,8 @@ load('vectorField_RL_2019_P2.mat');
 num_of_notes = length(mapFunc);
 nets = initialize_nets(num_of_notes);
 
-start = [0.7 0.4];
-target = [0.3 0.4];
+start = [0.3 0.3];
+target = [0.7 0.3];
      
 randomness = zeros(size(target,1),1);
 

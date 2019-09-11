@@ -6,15 +6,15 @@ clear all;
 clc;
 
 % Starting point for the manipulation     
-start = [0.7 0.4];
-target = [0.3 0.4];   
+start = [0.3 0.3];
+target = [0.7 0.3]; 
 
 tolerance = 0.015; % At which distance the particle considered have reached the target, in plate units
 mycontroller = @net_controller; % Replace this line to switch from one controller to another
 
 datapath = getTempDataPath();
 mapfilename = 'vectorField_RL_2019_P2.mat';
-netfilename = 'nets2.mat';
+netfilename = 'nets20.mat';
 load(strcat(datapath,mapfilename));
 load(strcat(datapath,netfilename));
 
