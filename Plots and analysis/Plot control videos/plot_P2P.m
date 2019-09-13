@@ -7,11 +7,11 @@ function [coordinates,angle,data] = plot_P2P()
     makeVideo = 0;
     everyNthFrame = 5;
     downSampling = 0;
-    pdfFrames = [1, 190, 820];
+    pdfFrames = [1, 91, 515];
     idxForPdf = 1;
     coordinates = zeros(2,2);
     angle = 0;
-    n_particle = 3;
+    n_particle = 2;
     
     f = figure(1);
     set(f, 'Position', [100, 100, 700, 700]);                
@@ -22,18 +22,18 @@ function [coordinates,angle,data] = plot_P2P()
     set(gca,'yticklabel',[]);  
     data = [];
     
-    t = [0.5 0.25; 0.3 0.7; 0.7 0.7];
-    vidObj = VideoReader(strcat(videoPath,'triple_50000.wmv'));
+    t = [0.3 0.3];
+    vidObj = VideoReader(strcat(videoPath,'double_10000.wmv'));
     lastFrame = ceil(vidObj.FrameRate*vidObj.Duration);
     dumpFrames = round(linspace(1,lastFrame,5));
     
     if (makeVideo)
-        v = VideoWriter(sprintf('%striple_50000_m',videoPath),'MPEG-4');
+        v = VideoWriter(sprintf('%sdouble_10000_m',videoPath),'MPEG-4');
         open(v);
         set(f, 'Position', [100, 100, 720, 720]);                
     end
       
-    processVideo(strcat(videoPath,'triple_50000.wmv'),@processFrame);        
+    processVideo(strcat(videoPath,'double_10000.wmv'),@processFrame);        
     
     if (makeVideo)        
         close(v);
@@ -61,7 +61,7 @@ function [coordinates,angle,data] = plot_P2P()
         end
         
         if frameNumber == 1
-            load('data_start_triple.mat');
+            load('data_start_double.mat');
             t = data_p(end-n_particle+1:end,:);  
 %             [coordinates,angle] = im_calibrate(frame);
         end            
@@ -94,14 +94,17 @@ function [coordinates,angle,data] = plot_P2P()
 
         MarkerSize = 20;
                 
-%         idx = zeros(length(data),n_particle);
         for h = 1:n_particle
             d1 = sqrt((data(1:end,1) - data(end-n_particle+h,1)) .^ 2 +...
             (data(1:end,2) - data(end-n_particle+h,2)) .^ 2); 
             idx(:,h) = d1 > 15;
         end
-        
-        ind = idx(:,1) & idx(:,2) & idx(:,3);
+
+        ind = idx(:,1);    
+        for i = 1:n_particle
+            ind_temp = idx(:,i);
+            ind = ind & ind_temp;
+        end
                 
         plot(data(ind,1),data(ind,2),'b.','MarkerSize',7);
 
@@ -155,7 +158,9 @@ function [coordinates,angle,data] = plot_P2P()
         
         if (makeVideo == 0) && (frameNumber == pdfFrames(idxForPdf))
             export_fig(sprintf('%sz_%d.pdf',tempDataPath,frameNumber));
-            idxForPdf = idxForPdf + 1;
+            if idxForPdf < length(pdfFrames)
+                idxForPdf = idxForPdf + 1;
+            end
         end
         
         if (makeVideo)
