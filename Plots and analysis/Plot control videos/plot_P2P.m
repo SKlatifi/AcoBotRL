@@ -4,15 +4,14 @@ function [coordinates,angle,data] = plot_P2P()
     videoPath = strcat(tempDataPath,'video_analysis\');
     frameNumber = 0;
     lastFrameRepeat = 0;
-    makeVideo = 1;
+    makeVideo = 0;
     everyNthFrame = 5;
     downSampling = 0;
-    pdfFrames = [1, 2000, 2919];
+    pdfFrames = [1, 190, 820];
     idxForPdf = 1;
     coordinates = zeros(2,2);
     angle = 0;
     n_particle = 3;
-    se = strel('line',11,90);
     
     f = figure(1);
     set(f, 'Position', [100, 100, 700, 700]);                
@@ -114,10 +113,6 @@ function [coordinates,angle,data] = plot_P2P()
             end
         end
 
-%         plot(data(ind,1)*imgSize(2),data(ind,2)*imgSize(1),...
-%             'b.','MarkerSize',7);
-        
- 
         dt = sqrt((t(:,1)*imgSize(2) - data(frameNumber,1)) .^ 2 +...
             (t(:,2)*imgSize(1) - data(frameNumber,2)) .^ 2);            
         indT = dt > 0;  % For disappearing the target points: indT = dt > 0.022;
@@ -171,18 +166,7 @@ function [coordinates,angle,data] = plot_P2P()
     close all;
     
     function ret = findBlobs(gf)  
-%         bw2 = imdilate(bw,se);
-%         s = regionprops(bw2,'centroid','FilledArea');
-%         centroids = cat(1, s.Centroid);
-%         areas = cat(1, s.FilledArea);
-%         if isempty(areas)
-%             x = 1
-%         end
-%         ind = 10 < areas & areas < 100;
-%         ret = centroids(ind,:);
-        
-        original = adaptiveThreshold(gf,5);    
-    
+        original = adaptiveThreshold(gf,5);       
         filled = imfill(original, 'holes');
         holes = filled & ~original;
         bigholes = bwareaopen(holes, 40);
@@ -192,8 +176,7 @@ function [coordinates,angle,data] = plot_P2P()
         centroids = cat(1, s.Centroid);
         areas = cat(1, s.FilledArea);
         eccs = cat(1, s.Eccentricity);
-        ind = 80 < areas & areas < 400 & eccs < 0.9;
-    %     ind = 20 < areas & areas < 200; % Under water
+        ind = 80 < areas & areas < 400 & eccs < 0.9;    
         ret = centroids(ind,:);   
     end                
 end
