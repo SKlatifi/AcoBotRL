@@ -32,12 +32,12 @@ opts.StartPoint = [0.230488160211558 0.844308792695389 0.194764289567049];
 f = figure(1);
 x_fit = 1:0.01:100;
 y_fit = fitresult(x_fit);
-plot(xData,yData,'k.','MarkerSize',7);
+plot(xData,yData,'b','MarkerSize',7);
 hold on;
-plot(x_fit,y_fit,'b','LineWidth',1.4);
+plot(x_fit,y_fit,'k','LineWidth',1.4);
 legend off
 % Label axes
-xlabel( 'Episode No', 'Interpreter', 'none' );
+xlabel( 'Episode No.', 'Interpreter', 'none' );
 ylabel( 'Accumulated reward', 'Interpreter', 'none' );
 
 set(f, 'Position', [100, 100, 500, 250]);  

@@ -19,3 +19,4 @@ x = 1:episode_max;
 y = real_reward(1:episode_max);
 
 [fitresult, gof] = createFitExp(x, y);
+export_fig(strcat(tempPath,'accumulated_reward.png'),'-r600');
