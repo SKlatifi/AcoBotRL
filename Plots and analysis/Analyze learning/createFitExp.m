@@ -30,7 +30,7 @@ opts.StartPoint = [0.230488160211558 0.844308792695389 0.194764289567049];
 
 % Plot fit with data.
 f = figure(1);
-x_fit = 1:0.01:100;
+x_fit = 1:0.01:200;
 y_fit = fitresult(x_fit);
 plot(xData,yData,'b','MarkerSize',7);
 hold on;
@@ -41,9 +41,9 @@ xlabel( 'Episode No.', 'Interpreter', 'none' );
 ylabel( 'Accumulated reward', 'Interpreter', 'none' );
 
 set(f, 'Position', [100, 100, 500, 250]);  
-set(gca,'xtick',20:20:100);
+set(gca,'xtick',50:50:200);
 set(gca,'ytick',0.1:0.1:0.5);
 set(gcf,'color','w');
-axis([0 80 0 0.42]);
+axis([0 200 0 0.42]);
 
 
