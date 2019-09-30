@@ -5,11 +5,11 @@ clc;
 
 tempPath = getTempDataPath();
 numGrid = 20;
-x = linspace(0,1,numGrid);
-y = linspace(0,1,numGrid);
+x = linspace(0.3,0.7,numGrid);
+y = linspace(0.1,0.5,numGrid);
 
 num_episodes = 200;
-selected_note = 40;
+selected_note = 11;
 NetMat = zeros(numGrid,numGrid,num_episodes);
 
 for n = 1:num_episodes
