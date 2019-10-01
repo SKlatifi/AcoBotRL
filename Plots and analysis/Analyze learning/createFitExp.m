@@ -32,18 +32,34 @@ opts.StartPoint = [0.230488160211558 0.844308792695389 0.194764289567049];
 f = figure(1);
 x_fit = 1:0.01:200;
 y_fit = fitresult(x_fit);
-plot(xData,yData,'b','MarkerSize',7);
+h = plot(xData,yData,'b','MarkerSize',7);
 hold on;
 plot(x_fit,y_fit,'k','LineWidth',1.4);
 legend off
-% Label axes
-xlabel( 'Episode No.', 'Interpreter', 'none' );
-ylabel( 'Accumulated reward', 'Interpreter', 'none' );
 
-set(f, 'Position', [100, 100, 500, 250]);  
-set(gca,'xtick',50:50:200);
-set(gca,'ytick',0.1:0.1:0.5);
-set(gcf,'color','w');
+% Label axes
+fontsize = 13;
+xl = xlabel( 'Episode No.', 'Interpreter', 'none');
+yl = ylabel( 'Accumulated reward', 'Interpreter', 'none');
+ax = ancestor(h, 'axes');
+xrule = ax.XAxis;
+yrule = ax.YAxis;
+
+% Change properties of the axes
+ax.XTick = 50:50:200;
+ax.YTick = 0.1:0.1:0.5;
+
+% Change properties of the ruler
+xrule.FontSize = fontsize - 3;
+yrule.FontSize = fontsize - 3;
+
+% Change properties of the label
+xl.FontSize = fontsize;
+yl.FontSize = fontsize;
+
+set(f, 'Position', [100, 100, 500, 250]); 
 axis([0 200 0 0.42]);
+set(gcf,'color','none');
+
 
 

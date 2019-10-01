@@ -30,18 +30,34 @@ opts.StartPoint = [2.70775134661471 -0.500197256054332];
 f = figure(1);
 x_fit = 1:0.01:200;
 y_fit = fitresult(x_fit);
-plot(xData,yData,'b','MarkerSize',7);
+h = plot(xData,yData,'b','MarkerSize',7);
 hold on;
 plot(x_fit,y_fit,'k','LineWidth',1.4);
 legend off
+
 % Label axes
-xlabel( 'Episode No.', 'Interpreter', 'none' );
-ylabel( '\delta_{Q}');
+fontsize = 13;
+xl = xlabel( 'Episode No.', 'Interpreter', 'none' );
+yl = ylabel( '\delta_{Q}');
+ax = ancestor(h, 'axes');
+xrule = ax.XAxis;
+yrule = ax.YAxis;
+
+% Change properties of the axes
+ax.XTick = 50:50:200;
+ax.YTick = 0:0.5:1.5;
+
+% Change properties of the ruler
+xrule.FontSize = fontsize - 3;
+yrule.FontSize = fontsize - 3;
+
+% Change properties of the label
+xl.FontSize = fontsize;
+yl.FontSize = fontsize;
 
 set(f, 'Position', [100, 100, 500, 250]);  
-set(gca,'xtick',50:50:200);
-set(gca,'ytick',0:0.5:1.5);
-set(gcf,'color','w');
 axis([0 200 0 1.5]);
+set(gcf,'color','none');
+
 
 
