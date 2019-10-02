@@ -38,14 +38,14 @@ legend off
 % Label axes
 fontsize = 13;
 xl = xlabel( 'Episode No.', 'Interpreter', 'none' );
-yl = ylabel( '\delta_{Q}');
+yl = ylabel( '\delta_{Q} (unitless)');
 ax = ancestor(h, 'axes');
 xrule = ax.XAxis;
 yrule = ax.YAxis;
 
 % Change properties of the axes
 ax.XTick = 50:50:200;
-ax.YTick = 0:0.5:1.5;
+ax.YTick = 0:5e-4:1e-3;
 
 % Change properties of the ruler
 xrule.FontSize = fontsize - 3;
@@ -56,7 +56,7 @@ xl.FontSize = fontsize;
 yl.FontSize = fontsize;
 
 set(f, 'Position', [100, 100, 500, 250]);  
-axis([0 200 0 1.5]);
+axis([0 200 0 1e-3]);
 set(gcf,'color','none');
 
 
